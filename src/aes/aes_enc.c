@@ -27,7 +27,6 @@
 #include <stdint.h>
 #include <string.h>
 #include "aes.h"
-#include "aes_sbox.h"
 
 static uint32_t T0[256], T1[256], T2[256], T3[256];
 

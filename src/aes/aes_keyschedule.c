@@ -27,11 +27,9 @@
 #include <stdint.h>
 #include <string.h>
 #include "aes.h"
-#include "aes_keyschedule.h"
-#include "aes_sbox.h"
 
 
-const uint8_t rc_tab[] = {0x01, 0x02, 0x04, 0x08, 0x10,
+static const uint8_t rc_tab[] = {0x01, 0x02, 0x04, 0x08, 0x10,
                           0x20, 0x40, 0x80, 0x1b, 0x36};
 
 void aes_init(const void *key, uint16_t keysize_b, aes_genctx_t *ctx)
