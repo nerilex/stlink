@@ -6,6 +6,7 @@
         int (*exit_debug_mode) (stlink_t * sl);
         int (*enter_swd_mode) (stlink_t * sl);
         int (*enter_jtag_mode) (stlink_t * stl);
+        int (*enter_dfu_mode) (stlink_t * stl);
         int (*exit_dfu_mode) (stlink_t * stl);
         int (*core_id) (stlink_t * stl);
         int (*reset) (stlink_t * stl);

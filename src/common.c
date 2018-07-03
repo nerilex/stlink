@@ -563,6 +563,14 @@ int stlink_force_debug(stlink_t *sl) {
     return sl->backend->force_debug(sl);
 }
 
+int stlink_enter_dfu_mode(stlink_t *sl) {
+    DLOG("*** stlink_enter_dfu_mode ***\n");
+    if(sl->backend->enter_dfu_mode) {
+        return sl->backend->enter_dfu_mode(sl);
+    }
+    return -1;
+}
+
 int stlink_exit_dfu_mode(stlink_t *sl) {
     DLOG("*** stlink_exit_dfu_mode ***\n");
     return sl->backend->exit_dfu_mode(sl);
