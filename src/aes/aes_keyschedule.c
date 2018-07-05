@@ -29,47 +29,43 @@
 #include "aes.h"
 
 
-static const uint8_t rc_tab[] = {0x01, 0x02, 0x04, 0x08, 0x10,
-                          0x20, 0x40, 0x80, 0x1b, 0x36};
+static const uint8_t rc_tab[] = {
+        0x01, 0x02, 0x04, 0x08, 0x10,
+        0x20, 0x40, 0x80, 0x1b, 0x36};
 
 void aes_init(const void *key, uint16_t keysize_b, aes_genctx_t *ctx)
 {
     uint8_t hi, i, nk, next_nk;
     uint8_t rc = 0;
-    union __attribute__((packed))
-    {
-        uint32_t v32;
-        uint8_t v8[4];
-    } tmp;
+    uint8_t tmp[4], tmp_x;
     nk = keysize_b >> 5; /* 4, 6, 8 */
     hi = 4 * (nk + 6 + 1);
     memcpy(ctx, key, keysize_b / 8);
     next_nk = nk;
     for (i = nk; i < hi; ++i) {
-        /*	tmp.v32 = ((uint32_t*)(ctx->key[0].ks))[i-1]; */
-        memcpy(tmp.v8, ctx->key[0].ks + (i - 1) * 4, 4);
+        /*  tmp.v32 = ((uint32_t*)(ctx->key[0].ks))[i-1]; */
+        memcpy(tmp, ctx->key[0].ks + (i - 1) * 4, 4);
         if (i != next_nk) {
             if (nk == 8 && i % 8 == 4) {
-                tmp.v8[0] = aes_sbox[tmp.v8[0]];
-                tmp.v8[1] = aes_sbox[tmp.v8[1]];
-                tmp.v8[2] = aes_sbox[tmp.v8[2]];
-                tmp.v8[3] = aes_sbox[tmp.v8[3]];
+                tmp[0] = aes_sbox[tmp[0]];
+                tmp[1] = aes_sbox[tmp[1]];
+                tmp[2] = aes_sbox[tmp[2]];
+                tmp[3] = aes_sbox[tmp[3]];
             }
         } else {
             next_nk += nk;
-            /*			aes_rotword(&(tmp.v32)); */
-            tmp.v32 = (tmp.v32 >> 8) | (tmp.v32 << 24);
-            tmp.v8[0] = aes_sbox[tmp.v8[0]];
-            tmp.v8[1] = aes_sbox[tmp.v8[1]];
-            tmp.v8[2] = aes_sbox[tmp.v8[2]];
-            tmp.v8[3] = aes_sbox[tmp.v8[3]];
-            tmp.v8[0] ^= rc_tab[rc];
+            tmp_x = tmp[0];
+            tmp[0] = aes_sbox[tmp[1]];
+            tmp[1] = aes_sbox[tmp[2]];
+            tmp[2] = aes_sbox[tmp[3]];
+            tmp[3] = aes_sbox[tmp_x];
+            tmp[0] ^= rc_tab[rc];
             rc++;
         }
-        ctx->key[0].ks[4 * i + 0] = ctx->key[0].ks[(i - nk) * 4 + 0] ^ tmp.v8[0];
-        ctx->key[0].ks[4 * i + 1] = ctx->key[0].ks[(i - nk) * 4 + 1] ^ tmp.v8[1];
-        ctx->key[0].ks[4 * i + 2] = ctx->key[0].ks[(i - nk) * 4 + 2] ^ tmp.v8[2];
-        ctx->key[0].ks[4 * i + 3] = ctx->key[0].ks[(i - nk) * 4 + 3] ^ tmp.v8[3];
+        ctx->key[0].ks[4 * i + 0] = ctx->key[0].ks[(i - nk) * 4 + 0] ^ tmp[0];
+        ctx->key[0].ks[4 * i + 1] = ctx->key[0].ks[(i - nk) * 4 + 1] ^ tmp[1];
+        ctx->key[0].ks[4 * i + 2] = ctx->key[0].ks[(i - nk) * 4 + 2] ^ tmp[2];
+        ctx->key[0].ks[4 * i + 3] = ctx->key[0].ks[(i - nk) * 4 + 3] ^ tmp[3];
     }
 }
 
