@@ -63,8 +63,7 @@ set(STLINK_SOURCE
 	src/sg.c
 	src/logging.c
 	src/flash_loader.c
-	src/aes/aes_enc.c 
-	src/aes/aes_keyschedule.c src/aes/aes_sbox.c
+	src/aes/aes_enc.c
 )
 
 if (WIN32 OR MSYS OR MINGW)

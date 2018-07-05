@@ -712,66 +712,6 @@ src/aes/aes_enc.c.s:
 	$(MAKE) -f CMakeFiles/stlink-shared.dir/build.make CMakeFiles/stlink-shared.dir/src/aes/aes_enc.c.s
 .PHONY : src/aes/aes_enc.c.s
 
-src/aes/aes_keyschedule.o: src/aes/aes_keyschedule.c.o
-
-.PHONY : src/aes/aes_keyschedule.o
-
-# target to build an object file
-src/aes/aes_keyschedule.c.o:
-	$(MAKE) -f CMakeFiles/stlink-static.dir/build.make CMakeFiles/stlink-static.dir/src/aes/aes_keyschedule.c.o
-	$(MAKE) -f CMakeFiles/stlink-shared.dir/build.make CMakeFiles/stlink-shared.dir/src/aes/aes_keyschedule.c.o
-.PHONY : src/aes/aes_keyschedule.c.o
-
-src/aes/aes_keyschedule.i: src/aes/aes_keyschedule.c.i
-
-.PHONY : src/aes/aes_keyschedule.i
-
-# target to preprocess a source file
-src/aes/aes_keyschedule.c.i:
-	$(MAKE) -f CMakeFiles/stlink-static.dir/build.make CMakeFiles/stlink-static.dir/src/aes/aes_keyschedule.c.i
-	$(MAKE) -f CMakeFiles/stlink-shared.dir/build.make CMakeFiles/stlink-shared.dir/src/aes/aes_keyschedule.c.i
-.PHONY : src/aes/aes_keyschedule.c.i
-
-src/aes/aes_keyschedule.s: src/aes/aes_keyschedule.c.s
-
-.PHONY : src/aes/aes_keyschedule.s
-
-# target to generate assembly for a file
-src/aes/aes_keyschedule.c.s:
-	$(MAKE) -f CMakeFiles/stlink-static.dir/build.make CMakeFiles/stlink-static.dir/src/aes/aes_keyschedule.c.s
-	$(MAKE) -f CMakeFiles/stlink-shared.dir/build.make CMakeFiles/stlink-shared.dir/src/aes/aes_keyschedule.c.s
-.PHONY : src/aes/aes_keyschedule.c.s
-
-src/aes/aes_sbox.o: src/aes/aes_sbox.c.o
-
-.PHONY : src/aes/aes_sbox.o
-
-# target to build an object file
-src/aes/aes_sbox.c.o:
-	$(MAKE) -f CMakeFiles/stlink-static.dir/build.make CMakeFiles/stlink-static.dir/src/aes/aes_sbox.c.o
-	$(MAKE) -f CMakeFiles/stlink-shared.dir/build.make CMakeFiles/stlink-shared.dir/src/aes/aes_sbox.c.o
-.PHONY : src/aes/aes_sbox.c.o
-
-src/aes/aes_sbox.i: src/aes/aes_sbox.c.i
-
-.PHONY : src/aes/aes_sbox.i
-
-# target to preprocess a source file
-src/aes/aes_sbox.c.i:
-	$(MAKE) -f CMakeFiles/stlink-static.dir/build.make CMakeFiles/stlink-static.dir/src/aes/aes_sbox.c.i
-	$(MAKE) -f CMakeFiles/stlink-shared.dir/build.make CMakeFiles/stlink-shared.dir/src/aes/aes_sbox.c.i
-.PHONY : src/aes/aes_sbox.c.i
-
-src/aes/aes_sbox.s: src/aes/aes_sbox.c.s
-
-.PHONY : src/aes/aes_sbox.s
-
-# target to generate assembly for a file
-src/aes/aes_sbox.c.s:
-	$(MAKE) -f CMakeFiles/stlink-static.dir/build.make CMakeFiles/stlink-static.dir/src/aes/aes_sbox.c.s
-	$(MAKE) -f CMakeFiles/stlink-shared.dir/build.make CMakeFiles/stlink-shared.dir/src/aes/aes_sbox.c.s
-.PHONY : src/aes/aes_sbox.c.s
-
 src/chipid.o: src/chipid.c.o
 
 .PHONY : src/chipid.o
@@ -1117,12 +1057,6 @@ help:
 	@echo "... src/aes/aes_enc.o"
 	@echo "... src/aes/aes_enc.i"
 	@echo "... src/aes/aes_enc.s"
-	@echo "... src/aes/aes_keyschedule.o"
-	@echo "... src/aes/aes_keyschedule.i"
-	@echo "... src/aes/aes_keyschedule.s"
-	@echo "... src/aes/aes_sbox.o"
-	@echo "... src/aes/aes_sbox.i"
-	@echo "... src/aes/aes_sbox.s"
 	@echo "... src/chipid.o"
 	@echo "... src/chipid.i"
 	@echo "... src/chipid.s"
