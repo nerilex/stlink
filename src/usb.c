@@ -613,10 +613,7 @@ int _stlink_usb_dfu_get_key(stlink_t* sl, unsigned char keydata[20]) {
     return 0;
 }
 
-/**
- * TODO - not convinced this does anything...
- * @param sl
- */
+
 int _stlink_usb_reset(stlink_t * sl) {
     struct stlink_libusb * const slu = sl->backend_data;
     unsigned char* const data = sl->q_buf;
@@ -634,7 +631,9 @@ int _stlink_usb_reset(stlink_t * sl) {
         return (int) size;
     }
 
-    return 0;
+    // Reset through AIRCR so NRST does not need to be connected
+    return stlink_write_debug32(sl, STLINK_REG_AIRCR,
+            STLINK_REG_AIRCR_VECTKEY | STLINK_REG_AIRCR_SYSRESETREQ);
 }
 
 
@@ -1415,7 +1414,7 @@ static size_t stlink_probe_usb_devs(libusb_device **devs, stlink_t **sldevs[]) {
             continue;
 
         struct libusb_device_handle* handle;
-        char serial[13];
+        char serial[16];
         memset(serial, 0, sizeof(serial));
 
         ret = libusb_open(dev, &handle);
