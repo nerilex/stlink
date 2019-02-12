@@ -10,6 +10,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <stdbool.h>
+#include "aes.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -33,9 +34,61 @@ extern "C" {
 
 #define STLINK_DEBUG_COMMAND		0xF2
 #define STLINK_DFU_COMMAND		0xF3
-#define STLINK_DFU_EXIT		0x07
+#define STLINK_DFU_ENTER_COMMAND      0xF9
 
-    // STLINK_GET_CURRENT_MODE
+#define STLINK_DFU_DETACH      0x00
+#define STLINK_DFU_DNLOAD      0x01
+#define STLINK_DFU_UPLOAD      0x02
+#define STLINK_DFU_GETSTATUS   0x03
+#define STLINK_DFU_CLRSTATUS   0x04
+#define STLINK_DFU_GETSTATE    0x05
+#define STLINK_DFU_ABORT       0x06
+#define STLINK_DFU_EXIT	   	   0x07
+#define STLINK_DFU_GETKEY      0x08
+
+#define STLINK_DFU_UPLOAD_GET     0x00
+#define STLINK_DFU_UPLOAD_SET_PTR 0x21
+#define STLINK_DFU_UPLOAD_ERASE 0x41
+#define STLINK_DFU_UPLOAD_READUNPROTECT 0x92
+
+#define STLINK_DFU_DNLOAD_SET_PTR 0x21
+#define STLINK_DFU_DNLOAD_ERASE 0x41
+#define STLINK_DFU_DNLOAD_READUNPROTECT 0x92
+
+enum dfu_status_code {
+    DFU_STATUS_OK = 0,
+    DFU_STATUS_errTARGET,
+    DFU_STATUS_errFILE,
+    DFU_STATUS_errWRITE,
+    DFU_STATUS_errERASE,
+    DFU_STATUS_errCHECK_ERASED,
+    DFU_STATUS_errPROG,
+    DFU_STATUS_errVERIFY,
+    DFU_STATUS_errADDRESS,
+    DFU_STATUS_errNOTDONE,
+    DFU_STATUS_errFIRMWARE,
+    DFU_STATUS_errVENDOR,
+    DFU_STATUS_errUSBR,
+    DFU_STATUS_errPOR,
+    DFU_STATUS_errUNKNOWN,
+    DFU_STATUS_errSTALLEDPKT = 0x0F
+};
+
+enum dfu_state_code {
+    DFU_STATE_appIDLE = 0,
+    DFU_STATE_appDETACH,
+    DFU_STATE_dfuIDLE,
+    DFU_STATE_dfuDNLOAD_SYNC,
+    DFU_STATE_dfuDNBUSY,
+    DFU_STATE_dfuDNLOAD_IDLE,
+    DFU_STATE_dfuMANIFEST_SYNC,
+    DFU_STATE_dfuMANIFEST,
+    DFU_STATE_dfuMANIFEST_WAIT_RESET,
+    DFU_STATE_dfuUPLOAD_IDLE,
+    DFU_STATE_dfuERROR = 10
+};
+
+// STLINK_GET_CURRENT_MODE
 #define STLINK_DEV_DFU_MODE		0x00
 #define STLINK_DEV_MASS_MODE		0x01
 #define STLINK_DEV_DEBUG_MODE		0x02

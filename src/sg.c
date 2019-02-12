@@ -917,6 +917,7 @@ static stlink_backend_t _stlink_sg_backend = {
     _stlink_sg_exit_debug_mode,
     _stlink_sg_enter_swd_mode,
     _stlink_sg_enter_jtag_mode,
+    NULL, /* no enter_dfu_mode here :-( */
     _stlink_sg_exit_dfu_mode,
     _stlink_sg_core_id,
     _stlink_sg_reset,
