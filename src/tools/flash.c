@@ -92,9 +92,11 @@ int main(int ac, char** av)
     }
 
     if (o.reset){
-        if (stlink_jtag_reset(sl, 2)) {
-            printf("Failed to reset JTAG\n");
-            goto on_error;
+        if (sl->version.stlink_v > 1) {
+            if (stlink_jtag_reset(sl, 2)) {
+                printf("Failed to reset JTAG\n");
+                goto on_error;
+            }
         }
 
         if (stlink_reset(sl)) {
@@ -162,6 +164,14 @@ int main(int ac, char** av)
                 goto on_error;
             }
         }
+        else if (o.addr == STM32_G0_OPTION_BYTES_BASE || o.addr == STM32_L0_CAT2_OPTION_BYTES_BASE) {
+            err = stlink_fwrite_option_bytes(sl, o.filename, o.addr);
+            if (err == -1)
+            {
+                printf("stlink_fwrite_option_bytes() == -1\n");
+                goto on_error;
+            }
+        }
         else {
             err = -1;
             printf("Unknown memory region\n");
@@ -177,9 +187,11 @@ int main(int ac, char** av)
         }
     } else if (o.cmd == CMD_RESET)
     {
-        if (stlink_jtag_reset(sl, 2)) {
-            printf("Failed to reset JTAG\n");
-            goto on_error;
+        if (sl->version.stlink_v > 1) {
+            if (stlink_jtag_reset(sl, 2)) {
+                printf("Failed to reset JTAG\n");
+                goto on_error;
+            }
         }
 
         if (stlink_reset(sl)) {
@@ -204,7 +216,7 @@ int main(int ac, char** av)
     }
 
     if (o.reset){
-        stlink_jtag_reset(sl,2);
+        if (sl->version.stlink_v > 1) stlink_jtag_reset(sl, 2);
         stlink_reset(sl);
     }
 

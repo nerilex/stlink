@@ -12,6 +12,8 @@
 #include <stdbool.h>
 #include "aes.h"
 
+#include "stm32.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -103,16 +105,6 @@ enum dfu_state_code {
 
 #define STLINK_DEBUG_APIV2_SWD_SET_FREQ    0x43
 
-    /* cortex core ids */
-    // TODO clean this up...
-#define STM32VL_CORE_ID 0x1ba01477
-#define CS32_CORE_ID 0x2ba01477
-#define STM32F7_CORE_ID 0x5ba02477
-
-    // Constant STM32 memory map figures
-#define STM32_FLASH_BASE 0x08000000
-#define STM32_SRAM_BASE 0x20000000
-
 // Baud rate divisors for SWDCLK
 #define STLINK_SWDCLK_4MHZ_DIVISOR		0
 #define STLINK_SWDCLK_1P8MHZ_DIVISOR	1
@@ -127,7 +119,7 @@ enum dfu_state_code {
 #define STLINK_SWDCLK_15KHZ_DIVISOR		265
 #define STLINK_SWDCLK_5KHZ_DIVISOR		798
 
-
+#define STLINK_SERIAL_MAX_SIZE 64
 
     /* Enough space to hold both a V2 command or a V1 command packaged as generic scsi*/
 #define C_BUF_LEN 32
@@ -140,6 +132,7 @@ enum dfu_state_code {
         STLINK_FLASH_TYPE_L4,
         STLINK_FLASH_TYPE_F1_XL,
         STLINK_FLASH_TYPE_G0,
+        STLINK_FLASH_TYPE_WB
     };
 
     struct stlink_reg {
@@ -206,7 +199,7 @@ typedef struct flash_loader {
         uint32_t chip_id;
         int core_stat;
 
-        char serial[16];
+        char serial[STLINK_SERIAL_MAX_SIZE];
         int serial_size;
 
         enum stlink_flash_type flash_type;
@@ -259,6 +252,7 @@ typedef struct flash_loader {
     uint8_t stlink_get_erased_pattern(stlink_t *sl);
     int stlink_mwrite_flash(stlink_t *sl, uint8_t* data, uint32_t length, stm32_addr_t addr);
     int stlink_fwrite_flash(stlink_t *sl, const char* path, stm32_addr_t addr);
+    int stlink_fwrite_option_bytes(stlink_t *sl, const char* path, stm32_addr_t addr);
     int stlink_mwrite_sram(stlink_t *sl, uint8_t* data, uint32_t length, stm32_addr_t addr);
     int stlink_fwrite_sram(stlink_t *sl, const char* path, stm32_addr_t addr);
     int stlink_verify_write_flash(stlink_t *sl, stm32_addr_t address, uint8_t *data, uint32_t length);
